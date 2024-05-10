@@ -1,0 +1,18 @@
+*&---------------------------------------------------------------------*
+*& Report ZVISH_PRO4_SELECT1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZVISH_PRO4_SELECT1.
+tables EKKO .
+data : lv_ebeln type ekko-ebeln,
+      lv_CHANGEDATETIME type CHANGEDATETIME,
+      lv_pincr type pincr,
+      lv_lifnr type lifnr.
+SELECT-OPTIONS s_ebeln for lv_ebeln.
+select ebeln LASTCHANGEDATETIME pincr lifnr
+  into (lv_ebeln , lv_CHANGEDATETIME ,lv_pincr, lv_lifnr )
+  from ekko
+  where ebeln in s_ebeln.
+  WRITE : / lv_ebeln , lv_CHANGEDATETIME ,lv_pincr, lv_lifnr.
+  ENDSELECT.

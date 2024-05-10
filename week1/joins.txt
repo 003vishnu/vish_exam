@@ -1,0 +1,50 @@
+*&---------------------------------------------------------------------*
+*& Report ZVISH_JOIN1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZVISH_JOIN1.
+
+tables zvish_std_table.
+
+types : begin of str,
+lv_sid type	ZSTDID_VIS,
+lv_sNAME type	ZSTDNA_VIS,
+lv_sCLASS	TYPE ZSTDCL_VIS,
+lv_sPER	TYPE ZSTDP_VIS ,
+lv_JAVA_M	type ZSTDJ_VIS,
+lv_PYTHON_M	type ZSTDPY_VIS,
+lv_CLANG_M type	ZSTDC_VIS,
+  END OF str.
+ data : l_tab type STANDARD TABLE OF str,
+       wa type str,
+       lv_sid type ZSTDID_VIS,
+       lv_id type ZSTDID_VIS.
+ SELECT-OPTIONS s_id for lv_sid.
+ PARAMETERS p_cl type ZSTDCL_VIS.
+ START-OF-SELECTION.
+ select  zvish_std_table~STUDENT_ID
+    zvish_std_table~STUDENT_NAME
+   zvish_std_table~STD_CLASS zvish_std_table~STD_PER
+   zvish_std_report~JAVA_M
+   zvish_std_report~PYTHON_M
+    zvish_std_report~CLANG_M
+   into table l_tab from zvish_std_table inner join zvish_std_report
+   on zvish_std_table~STUDENT_ID = zvish_std_report~STUDENT_ID
+where zvish_std_table~STUDENT_ID in s_id and zvish_std_table~STD_CLASS eq p_cl.
+IF sy-subrc eq 0.
+  write: 'Records found and count is:', sy-dbcnt.
+  else.
+    write: 'Records not found count is:', sy-dbcnt.
+    ENDIF.
+ end-of-SELECTION.
+ loop at l_tab into wa.
+   write:/
+   wa-lv_sid ,
+wa-lv_sNAME ,
+wa-lv_sCLASS  ,
+wa-lv_sPER,
+wa-lv_JAVA_M,
+wa-lv_PYTHON_M,
+wa-lv_CLANG_M.
+   ENdLOOP.

@@ -1,0 +1,19 @@
+*&---------------------------------------------------------------------*
+*& Report ZVISH_PRO4_SELECT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZVISH_PRO4_SELECT.
+Tables LFA1.
+data: lv_lifnr TYPE lfa1-lifnr, " account Number
+      lv_name1 TYPE lfa1-name1, " Name 1
+      lv_ort01 TYPE lfa1-ort01, " city
+      lv_land1 TYPE lfa1-land1. " country
+select lifnr name1 ort01 land1
+      into ( lv_lifnr, lv_name1 , lv_ort01 , lv_land1 )
+       from lfa1
+       WHERE lifnr = '0000000001'.
+
+  WRITE : / lv_lifnr, lv_name1 , lv_ort01 , lv_land1.
+
+  ENDSELECT.

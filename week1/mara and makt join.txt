@@ -1,0 +1,43 @@
+*&---------------------------------------------------------------------*
+*& Report ZVISH_MARA_MAKT_JOIN
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zvish_mara_makt_join.
+
+
+TYPES : BEGIN OF ls_tab,  " strs
+          matnr TYPE matnr, " Material Number
+          mbrsh TYPE mbrsh, " Industry
+          mtart TYPE mtart, " Material Number
+          meins TYPE meins, " Base Unit of Measure
+          matkl TYPE matkl,
+          maktx TYPE maktx," from makt table
+
+        END OF ls_tab.
+
+DATA : lt_tab TYPE STANDARD TABLE OF ls_tab,  " itab
+       wa TYPE ls_tab.   " work area
+
+DATA lv_matnr TYPE matnr.
+SELECT-OPTIONS s_matnr for lv_matnr.
+START-OF-SELECTION.
+SELECT mara~matnr
+mara~mbrsh
+mara~mtart
+mara~meins
+mara~matkl
+makt~maktx
+  into table lt_tab
+  from mara inner join makt on mara~matnr eq makt~matnr
+  where mara~matnr in s_matnr.
+end-of-SELECTION.
+
+loop at lt_tab into wa.
+ write:/ wa-matnr,
+wa-mbrsh,
+wa-mtart,
+wa-meins,
+wa-matkl,
+wa-maktx.
+ ENDLOOP.

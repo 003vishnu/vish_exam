@@ -1,0 +1,23 @@
+*&---------------------------------------------------------------------*
+*& Report ZVISH_SELECT_STD
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZVISH_SELECT_STD.
+tables ZVISH_STD_TABLE.
+
+data: lv_stdid TYPE ZVISH_STD_TABLE-STUDENT_ID,
+      lv_name TYPE ZVISH_STD_TABLE-STUDENT_NAME,
+      lv_class type ZVISH_STD_TABLE-STD_CLASS,
+      lv_per TYPE ZVISH_STD_TABLE-STD_PER.
+PARAMETERS p_class type ZVISH_STD_TABLE-STD_CLASS.
+SELECT-OPTIONS s_stdid FOR lv_stdid.
+
+select STUDENT_ID STUDENT_NAME STD_CLASS STD_PER
+      into ( lv_stdid, lv_name , lv_class , lv_per )
+       from ZVISH_STD_TABLE
+       WHERE STUDENT_ID in s_stdid and STD_CLASS eq p_class .
+
+  WRITE : / lv_stdid, lv_name , lv_class , lv_per.
+
+  ENDSELECT.

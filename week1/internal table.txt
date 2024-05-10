@@ -1,0 +1,129 @@
+*&---------------------------------------------------------------------*
+*& Report ZVISH_ITAB_1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZVISH_ITAB_1.
+*tables ZVISH_STD_TABLE.
+*
+*data: lv_stdid TYPE ZSTDID_VIS,
+*      lv_name TYPE ZSTDNA_VIS,
+*      lv_class type ZSTDCL_VIS,
+*      lv_per TYPE ZSTDP_VIS.
+*PARAMETERS p_class type ZSTDCL_VIS.
+*SELECT-OPTIONS s_stdid FOR lv_stdid.
+*
+*select STUDENT_ID STUDENT_NAME STD_CLASS STD_PER
+*      into ( lv_stdid, lv_name , lv_class , lv_per )
+*       from ZVISH_STD_TABLE
+*       WHERE STUDENT_ID in s_stdid and STD_CLASS eq p_class .
+*
+*  WRITE : / lv_stdid, lv_name , lv_class , lv_per.
+*
+*  ENDSELECT.
+
+*****#2
+*tables ZVISH_STD_TABLE.
+*data lt_tab type ZVISH_STD_TABLE occurs 0 WITH HEADER LINE.
+*data lv_stdid TYPE ZSTDID_VIS.
+*PARAMETERS p_class type ZSTDCL_VIS.
+*SELECT-OPTIONS s_stdid FOR lv_stdid.
+*
+*select *
+*      into lt_tab
+*       from ZVISH_STD_TABLE
+*       WHERE STUDENT_ID in s_stdid and STD_CLASS eq p_class .
+*append lt_tab to lt_tab.
+*
+*  ENDSELECT.
+*  loop at lt_tab into lt_tab.
+*    WRITE: / lt_tab-STUDENT_ID,
+*          lt_tab-STUDENT_NAME,
+*          lt_tab-STD_CLASS,
+*          lt_tab-STD_PER.
+*
+*  ENDLOOP.
+
+
+
+
+*tables ZVISH_STD_TABLE.
+*data lt_tab type ZVISH_STD_TABLE occurs 0 WITH HEADER LINE.
+*data lv_stdid TYPE ZSTDID_VIS.
+*PARAMETERS p_class type ZSTDCL_VIS.
+*SELECT-OPTIONS s_stdid FOR lv_stdid.
+*
+*select *
+*      into table lt_tab
+*       from ZVISH_STD_TABLE
+*       WHERE STUDENT_ID in s_stdid and STD_CLASS eq p_class .
+*
+*  loop at lt_tab into lt_tab.
+*    WRITE: / lt_tab-STUDENT_ID,
+*          lt_tab-STUDENT_NAME,
+*          lt_tab-STD_CLASS,
+*          lt_tab-STD_PER.
+*
+*  ENDLOOP.
+
+
+*
+*tables ZVISH_STD_TABLE.
+*types : begin of ls_tab,
+*  lv_stdid TYPE ZSTDID_VIS,
+*      lv_name TYPE ZSTDNA_VIS,
+*      lv_class type ZSTDCL_VIS,
+*      lv_per TYPE ZSTDP_VIS,
+*  end of ls_tab.
+*
+*data :lt_tab type standard table of ls_tab,
+*      wa_tab type ls_tab.
+*data lv_stdid TYPE ZSTDID_VIS.
+*PARAMETERS p_class type ZSTDCL_VIS.
+*SELECT-OPTIONS s_stdid FOR lv_stdid.
+*
+*select STUDENT_ID STUDENT_NAME STD_CLASS STD_PER
+*      into  wa_tab
+*       from ZVISH_STD_TABLE
+*       WHERE STUDENT_ID in s_stdid and STD_CLASS eq p_class .
+*  append wa_tab to lt_tab.
+*  ENDSELECT.
+*
+*  loop at lt_tab into wa_tab.
+*    WRITE: / wa_tab-STUDENT_ID,
+*          wa_tab-STUDENT_NAME,
+*          wa_tab-STD_CLASS,
+*          wa_tab-STD_PER.
+*
+*  ENDLOOP.
+
+
+
+tables ZVISH_STD_TABLE.
+types : begin of ls_tab,
+  lv_stdid TYPE ZSTDID_VIS,
+      lv_name TYPE ZSTDNA_VIS,
+      lv_class type ZSTDCL_VIS,
+      lv_per TYPE ZSTDP_VIS,
+  end of ls_tab.
+
+data :lt_tab type standard table of ls_tab,
+      wa_tab type ls_tab.
+data lv_stdid TYPE ZSTDID_VIS.
+PARAMETERS p_class type ZSTDCL_VIS.
+SELECT-OPTIONS s_stdid FOR lv_stdid.
+
+select STUDENT_ID STUDENT_NAME STD_CLASS STD_PER
+      into table wa_tab
+       from ZVISH_STD_TABLE
+       WHERE STUDENT_ID in s_stdid and STD_CLASS eq p_class .
+  append wa_tab to lt_tab.
+  ENDSELECT.
+
+  loop at lt_tab into wa_tab.
+    WRITE: / wa_tab-STUDENT_ID,
+          wa_tab-STUDENT_NAME,
+          wa_tab-STD_CLASS,
+          wa_tab-STD_PER.
+
+  ENDLOOP.
